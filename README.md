@@ -1,7 +1,7 @@
 # 🏛️ Gabinete Digital 360
 
 ![Status](https://img.shields.io/badge/Status-Concluído-success)
-![Versão](https://img.shields.io/badge/Versão-1.2.1-blue)
+![Versão](https://img.shields.io/badge/Versão-1.2.2-blue)
 ![Tech](https://img.shields.io/badge/Stack-React%20%7C%20TypeScript%20%7C%20Supabase-blueviolet)
 ![License](https://img.shields.io/badge/License-MIT-green)
 
@@ -165,6 +165,18 @@ O sistema possui um **Gerador de Dados Fictícios** integrado para facilitar apr
 ---
 
 ## 📝 Changelog Recente
+
+### v1.2.2 - Filtro de Localização e Melhorias de UX
+*   **Novo Filtro de Eleitores:**
+    *   Adicionado filtro avançado por **Estado**, **Cidade** e **Bairro** na página de Eleitores.
+    *   Lógica exclusiva para a rota `/eleitores`, não afetando outros dashboards.
+    *   Implementação de testes unitários para validar a filtragem por contexto e busca.
+*   **Melhorias de Layout:**
+    *   Nova barra de pesquisa global no topo (Header).
+    *   Design mais limpo e responsivo para os componentes de filtro.
+*   **Testes Automatizados:**
+    *   Configuração completa do **Vitest** com `jsdom` e `@testing-library`.
+    *   Criação de suíte de testes para o módulo de Eleitores (`src/pages/Eleitores.test.tsx`).
 
 ### v1.2.1 - Melhorias em Prestação de Contas e Qualidade de Código
 *   **Correção de Tipagem (TypeScript):**

@@ -1,6 +1,7 @@
 
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom'
 import { AuthProvider } from '@/contexts/AuthContext'
+import { LocationProvider } from '@/contexts/LocationContext'
 import Layout from '@/components/Layout'
 import Login from '@/pages/Login'
 import Register from '@/pages/Register'
@@ -23,22 +24,24 @@ function App() {
   return (
     <Router>
       <AuthProvider>
-        <Routes>
-          <Route path="/login" element={<Login />} />
-          <Route path="/register" element={<Register />} />
-          <Route path="/" element={<Layout />}>
-            <Route index element={<Home />} />
-            <Route path="eleitores" element={<Eleitores />} />
-            <Route path="demandas" element={<Demandas />} />
-            <Route path="documentos" element={<Documentos />} />
-            <Route path="relatorios" element={<Relatorios />} />
-            <Route path="prestacao-contas" element={<PrestacaoContas />} />
-            <Route path="equipe" element={<Equipe />} />
-            <Route path="financeiro" element={<Financeiro />} />
-            <Route path="integracoes" element={<Integracoes />} />
-            <Route path="configuracoes" element={<Configuracoes />} />
-          </Route>
-        </Routes>
+        <LocationProvider>
+          <Routes>
+            <Route path="/login" element={<Login />} />
+            <Route path="/register" element={<Register />} />
+            <Route path="/" element={<Layout />}>
+              <Route index element={<Home />} />
+              <Route path="eleitores" element={<Eleitores />} />
+              <Route path="demandas" element={<Demandas />} />
+              <Route path="documentos" element={<Documentos />} />
+              <Route path="relatorios" element={<Relatorios />} />
+              <Route path="prestacao-contas" element={<PrestacaoContas />} />
+              <Route path="equipe" element={<Equipe />} />
+              <Route path="financeiro" element={<Financeiro />} />
+              <Route path="integracoes" element={<Integracoes />} />
+              <Route path="configuracoes" element={<Configuracoes />} />
+            </Route>
+          </Routes>
+        </LocationProvider>
       </AuthProvider>
     </Router>
   )

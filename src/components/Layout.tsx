@@ -3,7 +3,8 @@ import { useState } from 'react'
 import { Outlet, Navigate, Link } from 'react-router-dom'
 import { useAuth } from '@/contexts/AuthContext'
 import { Button } from '@/components/ui/button'
-import { LayoutDashboard, Users, FileText, Settings, LogOut, Menu, X } from 'lucide-react'
+import { Input } from '@/components/ui/input'
+import { LayoutDashboard, Users, FileText, Settings, LogOut, Menu, X, Search, Bell, User } from 'lucide-react'
 
 import { Toaster } from '@/components/ui/toaster'
 
@@ -143,13 +144,40 @@ export default function Layout() {
 
       {/* Main Content Wrapper */}
       <div className="flex-1 flex flex-col overflow-hidden">
-        {/* Mobile Header */}
-        <header className="md:hidden bg-white shadow-sm p-4 flex items-center justify-between z-30">
-          <div className="flex items-center">
-            <Button variant="ghost" size="icon" onClick={() => setIsSidebarOpen(true)} className="mr-2">
-              <Menu size={24} />
-            </Button>
-            <span className="font-bold text-lg text-gray-800">Gabinete 360</span>
+        {/* Header (Desktop & Mobile) */}
+        <header className="bg-white border-b shadow-sm z-30">
+          <div className="flex items-center justify-between p-4">
+            <div className="flex items-center gap-4">
+              <Button variant="ghost" size="icon" onClick={() => setIsSidebarOpen(true)} className="md:hidden">
+                <Menu size={24} />
+              </Button>
+              
+              {/* Search Bar */}
+              <div className="relative w-full max-w-md hidden md:block">
+                <Search className="absolute left-2.5 top-2.5 h-4 w-4 text-muted-foreground" />
+                <Input
+                  type="search"
+                  placeholder="Pesquisar..."
+                  className="w-[300px] pl-8 bg-gray-50 border-gray-200 focus:bg-white transition-colors"
+                />
+              </div>
+              <span className="font-bold text-lg text-gray-800 md:hidden">Gabinete 360</span>
+            </div>
+
+            <div className="flex items-center gap-4">
+              <Button variant="ghost" size="icon" className="text-gray-500">
+                <Bell size={20} />
+              </Button>
+              <div className="flex items-center gap-2 border-l pl-4 ml-2">
+                <div className="flex flex-col text-right hidden md:block">
+                  <span className="text-sm font-medium">{user?.email}</span>
+                  <span className="text-xs text-muted-foreground">Administrador</span>
+                </div>
+                <div className="h-8 w-8 rounded-full bg-primary/10 flex items-center justify-center text-primary">
+                  <User size={18} />
+                </div>
+              </div>
+            </div>
           </div>
         </header>
 

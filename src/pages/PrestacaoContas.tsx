@@ -1,12 +1,9 @@
-
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useRef } from 'react'
 import { 
-  PieChart, 
   Wallet, 
   Upload, 
   CheckCircle2, 
   AlertTriangle, 
-  FileText,
   Download,
   Calendar as CalendarIcon,
   MoreHorizontal,
@@ -83,12 +80,14 @@ export default function PrestacaoContas() {
   const [isDialogOpen, setIsDialogOpen] = useState(false)
   const [saving, setSaving] = useState(false)
   const [arquivo, setArquivo] = useState<File | null>(null)
+  const fileInputRef = useRef<HTMLInputElement>(null) // Ref para limpar o input
+  
   const [novaDespesa, setNovaDespesa] = useState({
     fornecedor: '',
     categoria: '',
     valor: '',
     data: new Date().toISOString().split('T')[0],
-    status: 'pendente'
+    status: 'pendente' as Despesa['status']
   })
 
   const cotaTotal = 45000 // R$ 45.000,00 Cota Parlamentar Exemplo
@@ -120,15 +119,34 @@ export default function PrestacaoContas() {
 
       // 2. Fetch Despesas
       const { data: despesasData, error } = await supabase
-        .from('despesas')
+        .from('transacoes_financeiras')
         .select('*')
         .eq('mandato_id', userData.mandato_id)
+        .eq('tipo', 'despesa')
         .order('data', { ascending: false })
 
       if (error) throw error
 
       if (despesasData) {
-        setDespesas(despesasData as Despesa[])
+        // Map to Despesa type
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+        const mappedDespesas: Despesa[] = despesasData.map((t: any) => {
+          const validStatuses: Despesa['status'][] = ['aprovado', 'pendente', 'analise', 'rejeitado']
+          const status = validStatuses.includes(t.status) ? t.status : 'aprovado'
+
+          return {
+            id: t.id,
+            mandato_id: t.mandato_id,
+            categoria: t.categoria,
+            valor: Number(t.valor),
+            status: status as Despesa['status'],
+            data: t.data,
+            fornecedor: t.descricao, // Map descricao to fornecedor for consistency
+            created_at: t.created_at,
+            comprovante_url: t.comprovante_url
+          }
+        })
+        setDespesas(mappedDespesas)
       }
 
     } catch (error) {
@@ -156,38 +174,36 @@ export default function PrestacaoContas() {
       // Upload file if exists
       if (arquivo) {
         const fileExt = arquivo.name.split('.').pop()
-        const fileName = `${Math.random()}.${fileExt}`
-        const filePath = `${mandatoId}/${fileName}`
-
+        const fileName = `${mandatoId}/${Math.random()}.${fileExt}`
+        
         // Note: bucket 'comprovantes' must exist in Supabase
         const { error: uploadError } = await supabase.storage
           .from('comprovantes')
-          .upload(filePath, arquivo)
+          .upload(fileName, arquivo)
 
         if (uploadError) {
           console.warn('Erro ao fazer upload (bucket pode não existir):', uploadError)
-          // Fallback: just alert but continue saving the record without file or show error
-          // For MVP, we proceed but log it.
         } else {
           // Get Public URL
           const { data: publicUrlData } = supabase.storage
             .from('comprovantes')
-            .getPublicUrl(filePath)
+            .getPublicUrl(fileName)
           
           comprovanteUrl = publicUrlData.publicUrl
         }
       }
 
       const { data, error } = await supabase
-        .from('despesas')
+        .from('transacoes_financeiras')
         .insert({
           mandato_id: mandatoId,
-          fornecedor: novaDespesa.fornecedor,
-          categoria: novaDespesa.categoria,
+          descricao: novaDespesa.fornecedor,
           valor: parseFloat(novaDespesa.valor),
+          tipo: 'despesa',
+          categoria: novaDespesa.categoria,
           data: novaDespesa.data,
-          status: novaDespesa.status,
-          comprovante_url: comprovanteUrl
+          // status: novaDespesa.status, // Se sua tabela tiver coluna status, descomente
+          // comprovante_url: comprovanteUrl 
         })
         .select()
         .single()
@@ -195,8 +211,23 @@ export default function PrestacaoContas() {
       if (error) throw error
 
       if (data) {
-        setDespesas([data as Despesa, ...despesas])
+        // Map back to Despesa for UI
+        const newDespesaMapped: Despesa = {
+          id: data.id,
+          mandato_id: data.mandato_id,
+          categoria: data.categoria,
+          valor: data.valor,
+          status: novaDespesa.status, // Usa o status definido no state (pendente)
+          data: data.data,
+          fornecedor: data.descricao,
+          created_at: data.created_at,
+          comprovante_url: comprovanteUrl || undefined
+        }
+        
+        setDespesas([newDespesaMapped, ...despesas])
         setIsDialogOpen(false)
+        
+        // Reset form
         setNovaDespesa({
           fornecedor: '',
           categoria: '',
@@ -205,11 +236,14 @@ export default function PrestacaoContas() {
           status: 'pendente'
         })
         setArquivo(null)
+        if (fileInputRef.current) {
+          fileInputRef.current.value = ''
+        }
       }
 
     } catch (error) {
       console.error('Erro ao salvar despesa:', error)
-      alert('Erro ao salvar despesa. Verifique se a tabela "despesas" existe no Supabase.')
+      alert('Erro ao salvar despesa. Verifique a conexão com o banco de dados.')
     } finally {
       setSaving(false)
     }
@@ -220,7 +254,7 @@ export default function PrestacaoContas() {
 
     try {
       const { error } = await supabase
-        .from('despesas')
+        .from('transacoes_financeiras')
         .delete()
         .eq('id', id)
 
@@ -238,6 +272,13 @@ export default function PrestacaoContas() {
 
   const formatCurrency = (value: number) => {
     return new Intl.NumberFormat('pt-BR', { style: 'currency', currency: 'BRL' }).format(value)
+  }
+
+  // Determina a cor da barra de progresso
+  const getProgressColorClass = (percent: number) => {
+    if (percent > 90) return '[&>div]:bg-red-500'
+    if (percent > 70) return '[&>div]:bg-yellow-500'
+    return '[&>div]:bg-green-500'
   }
 
   if (loading) {
@@ -311,9 +352,9 @@ export default function PrestacaoContas() {
                 <span className="font-medium text-gray-600">Consumido: {formatCurrency(totalGasto)}</span>
                 <span className="font-medium text-gray-900">Limite: {formatCurrency(cotaTotal)}</span>
               </div>
-              <Progress value={percentualUso} className="h-4" 
-                // @ts-ignore
-                indicatorClassName={percentualUso > 90 ? 'bg-red-500' : percentualUso > 70 ? 'bg-yellow-500' : 'bg-green-500'} 
+              <Progress 
+                value={percentualUso} 
+                className={`h-4 ${getProgressColorClass(percentualUso)}`}
               />
               <p className="text-xs text-muted-foreground mt-2 text-right">
                 {percentualUso.toFixed(1)}% utilizado
@@ -444,6 +485,7 @@ export default function PrestacaoContas() {
                       <Input 
                         id="arquivo" 
                         type="file" 
+                        ref={fileInputRef}
                         accept="image/*,.pdf"
                         onChange={handleFileChange}
                         className="cursor-pointer"
@@ -509,12 +551,12 @@ export default function PrestacaoContas() {
                     </TableCell>
                     <TableCell>
                       <Badge 
-                        className={
-                          despesa.status === 'aprovado' ? 'bg-green-100 text-green-700 hover:bg-green-100 border-green-200' :
-                          despesa.status === 'rejeitado' ? 'bg-red-100 text-red-700 hover:bg-red-100 border-red-200' :
-                          despesa.status === 'analise' ? 'bg-blue-100 text-blue-700 hover:bg-blue-100 border-blue-200' :
-                          'bg-yellow-100 text-yellow-700 hover:bg-yellow-100 border-yellow-200'
-                        }
+                        className={`
+                          ${despesa.status === 'aprovado' ? 'bg-green-100 text-green-700 hover:bg-green-100 border-green-200' : ''}
+                          ${despesa.status === 'rejeitado' ? 'bg-red-100 text-red-700 hover:bg-red-100 border-red-200' : ''}
+                          ${despesa.status === 'analise' ? 'bg-blue-100 text-blue-700 hover:bg-blue-100 border-blue-200' : ''}
+                          ${despesa.status === 'pendente' ? 'bg-yellow-100 text-yellow-700 hover:bg-yellow-100 border-yellow-200' : ''}
+                        `}
                         variant="outline"
                       >
                         {despesa.status === 'aprovado' && <CheckCircle2 className="mr-1 h-3 w-3" />}
@@ -539,14 +581,14 @@ export default function PrestacaoContas() {
                           <DropdownMenuLabel>Ações</DropdownMenuLabel>
                           {despesa.comprovante_url && (
                             <DropdownMenuItem asChild>
-                              <a href={despesa.comprovante_url} target="_blank" rel="noopener noreferrer" className="flex items-center">
+                              <a href={despesa.comprovante_url} target="_blank" rel="noopener noreferrer" className="flex items-center cursor-pointer">
                                 <Eye className="mr-2 h-4 w-4" /> Visualizar Nota
                               </a>
                             </DropdownMenuItem>
                           )}
                           <DropdownMenuItem>Editar Lançamento</DropdownMenuItem>
                           <DropdownMenuSeparator />
-                          <DropdownMenuItem className="text-red-600" onClick={() => handleDelete(despesa.id)}>
+                          <DropdownMenuItem className="text-red-600 cursor-pointer" onClick={() => handleDelete(despesa.id)}>
                             Excluir
                           </DropdownMenuItem>
                         </DropdownMenuContent>

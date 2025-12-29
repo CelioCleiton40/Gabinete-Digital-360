@@ -5,6 +5,8 @@ import { useAuth } from '@/contexts/AuthContext'
 import { Button } from '@/components/ui/button'
 import { LayoutDashboard, Users, FileText, Settings, LogOut, Menu, X } from 'lucide-react'
 
+import { Toaster } from '@/components/ui/toaster'
+
 export default function Layout() {
   const { user, loading, signOut } = useAuth()
   const [isSidebarOpen, setIsSidebarOpen] = useState(false)
@@ -156,6 +158,7 @@ export default function Layout() {
           <Outlet />
         </main>
       </div>
+      <Toaster />
     </div>
   )
 }

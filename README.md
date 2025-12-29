@@ -1,7 +1,7 @@
 # 🏛️ Gabinete Digital 360
 
 ![Status](https://img.shields.io/badge/Status-Concluído-success)
-![Versão](https://img.shields.io/badge/Versão-1.2.0-blue)
+![Versão](https://img.shields.io/badge/Versão-1.2.1-blue)
 ![Tech](https://img.shields.io/badge/Stack-React%20%7C%20TypeScript%20%7C%20Supabase-blueviolet)
 ![License](https://img.shields.io/badge/License-MIT-green)
 
@@ -161,6 +161,21 @@ O sistema possui um **Gerador de Dados Fictícios** integrado para facilitar apr
 4.  O sistema populará automaticamente o banco de dados com:
     *   Eleitores com endereços em bairros reais de Mossoró (para teste do mapa).
     *   Demandas e Transações Financeiras para popular os gráficos.
+
+---
+
+## 📝 Changelog Recente
+
+### v1.2.1 - Melhorias em Prestação de Contas e Qualidade de Código
+*   **Correção de Tipagem (TypeScript):**
+    *   Implementada validação rigorosa de tipos no módulo `PrestacaoContas.tsx`.
+    *   Resolução de conflitos de tipo na propriedade `status` da interface `Despesa`.
+    *   Adição de validação em tempo de execução (runtime validation) para dados vindos do banco.
+*   **Limpeza de Código (Refactoring):**
+    *   Remoção de bibliotecas e componentes não utilizados (`PieChart`, `FileText`).
+    *   Substituição de diretivas `@ts-ignore` por `@ts-expect-error` para melhor rastreabilidade de erros.
+*   **Integração de Banco de Dados:**
+    *   Mapeamento seguro dos dados da tabela `transacoes_financeiras` para a interface de UI.
 
 ---
 

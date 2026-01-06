@@ -32,109 +32,130 @@ export default function Layout() {
 
       {/* Sidebar */}
       <aside className={`
-        fixed inset-y-0 left-0 z-50 w-64 bg-white shadow-md transform transition-transform duration-200 ease-in-out
+        fixed inset-y-0 left-0 z-50 w-64 bg-white shadow-xl transform transition-transform duration-200 ease-in-out border-r border-gray-200
         ${isSidebarOpen ? 'translate-x-0' : '-translate-x-full'}
         md:translate-x-0 md:static
       `}>
-        <div className="p-6 border-b flex justify-between items-center">
-          <h1 className="text-xl font-bold text-gray-800">Gabinete 360</h1>
-          <button onClick={() => setIsSidebarOpen(false)} className="md:hidden text-gray-500">
+        <div className="p-6 border-b border-gray-100 flex justify-between items-center bg-gradient-to-r from-white to-gray-50">
+          <div className="flex items-center gap-2">
+            <div className="h-8 w-8 rounded-lg bg-blue-900 flex items-center justify-center shadow-sm">
+               <span className="text-white font-bold text-lg">G</span>
+            </div>
+            <h1 className="text-xl font-extrabold text-blue-900 tracking-tight">Gabinete 360</h1>
+          </div>
+          <button onClick={() => setIsSidebarOpen(false)} className="md:hidden text-gray-400 hover:text-gray-600 transition-colors">
             <X size={24} />
           </button>
         </div>
-        <nav className="p-4 space-y-2">
+        
+        <nav className="p-4 space-y-1 overflow-y-auto max-h-[calc(100vh-140px)]">
+          <div className="px-4 py-2 text-xs font-semibold text-gray-400 uppercase tracking-wider">
+            Principal
+          </div>
           <Link 
             to="/" 
-            className="flex items-center space-x-3 px-4 py-2 text-gray-700 hover:bg-gray-100 rounded-lg"
+            className="flex items-center space-x-3 px-4 py-2.5 text-gray-600 hover:bg-blue-50 hover:text-blue-700 rounded-lg transition-all group font-medium"
             onClick={() => setIsSidebarOpen(false)}
           >
-            <LayoutDashboard size={20} />
+            <LayoutDashboard size={20} className="group-hover:scale-110 transition-transform text-gray-400 group-hover:text-blue-600" />
             <span>Dashboard</span>
           </Link>
           <Link 
             to="/eleitores" 
-            className="flex items-center space-x-3 px-4 py-2 text-gray-700 hover:bg-gray-100 rounded-lg"
+            className="flex items-center space-x-3 px-4 py-2.5 text-gray-600 hover:bg-green-50 hover:text-green-700 rounded-lg transition-all group font-medium"
             onClick={() => setIsSidebarOpen(false)}
           >
-            <Users size={20} />
+            <Users size={20} className="group-hover:scale-110 transition-transform text-gray-400 group-hover:text-green-600" />
             <span>Eleitores</span>
           </Link>
           <Link 
             to="/demandas" 
-            className="flex items-center space-x-3 px-4 py-2 text-gray-700 hover:bg-gray-100 rounded-lg"
+            className="flex items-center space-x-3 px-4 py-2.5 text-gray-600 hover:bg-yellow-50 hover:text-yellow-700 rounded-lg transition-all group font-medium"
             onClick={() => setIsSidebarOpen(false)}
           >
-            <FileText size={20} />
+            <FileText size={20} className="group-hover:scale-110 transition-transform text-gray-400 group-hover:text-yellow-600" />
             <span>Demandas</span>
           </Link>
+
+          <div className="px-4 py-2 mt-4 text-xs font-semibold text-gray-400 uppercase tracking-wider">
+            Gestão
+          </div>
           <Link 
             to="/documentos" 
-            className="flex items-center space-x-3 px-4 py-2 text-gray-700 hover:bg-gray-100 rounded-lg"
+            className="flex items-center space-x-3 px-4 py-2.5 text-gray-600 hover:bg-purple-50 hover:text-purple-700 rounded-lg transition-all group font-medium"
             onClick={() => setIsSidebarOpen(false)}
           >
-            <div className="flex h-5 w-5 items-center justify-center">
-              <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="lucide lucide-wand-2"><path d="m19 2 2 2-2 2-2-2 2-2Z"/><path d="m5 7 2 2-2 2-2-2 2-2Z"/><path d="m15 11 2 2-2 2-2-2 2-2Z"/><path d="M9.7 13.3a3 3 0 0 0-4.3 4.2l3 3a3 3 0 0 0 4.2-4.3l-5.6-5.6Z"/></svg>
+            <div className="flex h-5 w-5 items-center justify-center group-hover:scale-110 transition-transform">
+              <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="lucide lucide-wand-2 text-gray-400 group-hover:text-purple-600"><path d="m19 2 2 2-2 2-2-2 2-2Z"/><path d="m5 7 2 2-2 2-2-2 2-2Z"/><path d="m15 11 2 2-2 2-2-2 2-2Z"/><path d="M9.7 13.3a3 3 0 0 0-4.3 4.2l3 3a3 3 0 0 0 4.2-4.3l-5.6-5.6Z"/></svg>
             </div>
             <span>IA Redator</span>
           </Link>
           <Link 
             to="/relatorios" 
-            className="flex items-center space-x-3 px-4 py-2 text-gray-700 hover:bg-gray-100 rounded-lg"
+            className="flex items-center space-x-3 px-4 py-2.5 text-gray-600 hover:bg-indigo-50 hover:text-indigo-700 rounded-lg transition-all group font-medium"
             onClick={() => setIsSidebarOpen(false)}
           >
-            <div className="flex h-5 w-5 items-center justify-center">
-              <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="lucide lucide-file-bar-chart"><path d="M14.5 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7.5L14.5 2z"/><polyline points="14 2 14 8 20 8"/><path d="M12 18v-4"/><path d="M8 18v-2"/><path d="M16 18v-6"/></svg>
+            <div className="flex h-5 w-5 items-center justify-center group-hover:scale-110 transition-transform">
+              <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="lucide lucide-file-bar-chart text-gray-400 group-hover:text-indigo-600"><path d="M14.5 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7.5L14.5 2z"/><polyline points="14 2 14 8 20 8"/><path d="M12 18v-4"/><path d="M8 18v-2"/><path d="M16 18v-6"/></svg>
             </div>
             <span>Relatórios</span>
           </Link>
           <Link 
             to="/equipe" 
-            className="flex items-center space-x-3 px-4 py-2 text-gray-700 hover:bg-gray-100 rounded-lg"
+            className="flex items-center space-x-3 px-4 py-2.5 text-gray-600 hover:bg-orange-50 hover:text-orange-700 rounded-lg transition-all group font-medium"
             onClick={() => setIsSidebarOpen(false)}
           >
-            <Users size={20} />
+            <Users size={20} className="group-hover:scale-110 transition-transform text-gray-400 group-hover:text-orange-600" />
             <span>Equipe</span>
           </Link>
+
+          <div className="px-4 py-2 mt-4 text-xs font-semibold text-gray-400 uppercase tracking-wider">
+            Financeiro
+          </div>
           <Link 
             to="/prestacao-contas" 
-            className="flex items-center space-x-3 px-4 py-2 text-gray-700 hover:bg-gray-100 rounded-lg"
+            className="flex items-center space-x-3 px-4 py-2.5 text-gray-600 hover:bg-emerald-50 hover:text-emerald-700 rounded-lg transition-all group font-medium"
             onClick={() => setIsSidebarOpen(false)}
           >
-            <div className="flex h-5 w-5 items-center justify-center">
-              <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="lucide lucide-wallet"><path d="M21 12V7H5a2 2 0 0 1 0-4h14v4"/><path d="M3 5v14a2 2 0 0 0 2 2h16v-5"/><path d="M18 12a2 2 0 0 0 0 4h4v-4Z"/></svg>
+            <div className="flex h-5 w-5 items-center justify-center group-hover:scale-110 transition-transform">
+              <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="lucide lucide-wallet text-gray-400 group-hover:text-emerald-600"><path d="M21 12V7H5a2 2 0 0 1 0-4h14v4"/><path d="M3 5v14a2 2 0 0 0 2 2h16v-5"/><path d="M18 12a2 2 0 0 0 0 4h4v-4Z"/></svg>
             </div>
             <span>Prestação Contas</span>
           </Link>
           <Link 
             to="/financeiro" 
-            className="flex items-center space-x-3 px-4 py-2 text-gray-700 hover:bg-gray-100 rounded-lg"
+            className="flex items-center space-x-3 px-4 py-2.5 text-gray-600 hover:bg-teal-50 hover:text-teal-700 rounded-lg transition-all group font-medium"
             onClick={() => setIsSidebarOpen(false)}
           >
-            <div className="flex h-5 w-5 items-center justify-center">
-              <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><line x1="12" x2="12" y1="2" y2="22"/><path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg>
+            <div className="flex h-5 w-5 items-center justify-center group-hover:scale-110 transition-transform">
+              <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="text-gray-400 group-hover:text-teal-600"><line x1="12" x2="12" y1="2" y2="22"/><path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg>
             </div>
             <span>Financeiro</span>
           </Link>
+
+          <div className="px-4 py-2 mt-4 text-xs font-semibold text-gray-400 uppercase tracking-wider">
+            Sistema
+          </div>
           <Link 
             to="/integracoes" 
-            className="flex items-center space-x-3 px-4 py-2 text-gray-700 hover:bg-gray-100 rounded-lg"
+            className="flex items-center space-x-3 px-4 py-2.5 text-gray-600 hover:bg-cyan-50 hover:text-cyan-700 rounded-lg transition-all group font-medium"
             onClick={() => setIsSidebarOpen(false)}
           >
-            <div className="flex h-5 w-5 items-center justify-center">
-               <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/><path d="M8 11h8"/><path d="M8 15h8"/><path d="M11 7v8"/></svg>
+            <div className="flex h-5 w-5 items-center justify-center group-hover:scale-110 transition-transform">
+               <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="text-gray-400 group-hover:text-cyan-600"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/><path d="M8 11h8"/><path d="M8 15h8"/><path d="M11 7v8"/></svg>
             </div>
             <span>Integrações</span>
           </Link>
           <Link 
             to="/configuracoes" 
-            className="flex items-center space-x-3 px-4 py-2 text-gray-700 hover:bg-gray-100 rounded-lg"
+            className="flex items-center space-x-3 px-4 py-2.5 text-gray-600 hover:bg-slate-100 hover:text-slate-800 rounded-lg transition-all group font-medium"
             onClick={() => setIsSidebarOpen(false)}
           >
-            <Settings size={20} />
+            <Settings size={20} className="group-hover:scale-110 transition-transform text-gray-400 group-hover:text-slate-600" />
             <span>Configurações</span>
           </Link>
         </nav>
-        <div className="p-4 border-t absolute bottom-0 w-64 bg-white">
+        <div className="p-4 border-t border-gray-100 absolute bottom-0 w-64 bg-gray-50">
           <Button variant="ghost" className="w-full justify-start text-red-600 hover:text-red-700 hover:bg-red-50" onClick={signOut}>
             <LogOut size={20} className="mr-2" />
             Sair

@@ -137,53 +137,66 @@ export default function Equipe() {
     }
   }
 
+  if (loading) {
+    return (
+      <div className="flex h-full items-center justify-center">
+        <div className="flex flex-col items-center gap-2">
+          <div className="h-8 w-8 animate-spin rounded-full border-4 border-blue-600 border-t-transparent"></div>
+          <p className="text-gray-500 font-medium">Carregando equipe...</p>
+        </div>
+      </div>
+    )
+  }
+
   return (
-    <div className="space-y-6">
-      <div className="flex items-center justify-between">
+    <div className="space-y-8 max-w-6xl mx-auto pb-10">
+      <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 border-b border-gray-200 pb-6">
         <div className="space-y-1">
-          <h1 className="text-3xl font-bold tracking-tight">Gerenciamento de Equipe</h1>
-          <p className="text-muted-foreground">
+          <h1 className="text-3xl font-extrabold tracking-tight text-blue-900">Gerenciamento de Equipe</h1>
+          <p className="text-gray-600 text-lg">
             Gerencie quem tem acesso ao gabinete e suas permissões.
           </p>
         </div>
         <Dialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
           <DialogTrigger asChild>
-            <Button>
-              <Plus className="mr-2 h-4 w-4" /> Novo Membro
+            <Button className="bg-green-600 hover:bg-green-700 text-white font-bold shadow-md transition-all hover:scale-105 h-11 px-6">
+              <Plus className="mr-2 h-5 w-5" /> Novo Membro
             </Button>
           </DialogTrigger>
-          <DialogContent>
+          <DialogContent className="sm:max-w-[500px] border-t-4 border-blue-800">
             <DialogHeader>
-              <DialogTitle>Adicionar Novo Membro</DialogTitle>
+              <DialogTitle className="text-xl font-bold text-blue-900">Adicionar Novo Membro</DialogTitle>
               <DialogDescription>
                 Envie um convite para um novo assessor acessar o sistema.
               </DialogDescription>
             </DialogHeader>
             <form onSubmit={handleAddMembro}>
-              <div className="grid gap-4 py-4">
+              <div className="grid gap-5 py-6">
                 <div className="grid gap-2">
-                  <Label htmlFor="nome">Nome Completo</Label>
+                  <Label htmlFor="nome" className="text-blue-900 font-semibold">Nome Completo</Label>
                   <Input
                     id="nome"
                     value={nome}
                     onChange={(e) => setNome(e.target.value)}
                     required
+                    className="h-11 border-gray-300 focus:border-green-500 focus:ring-green-500"
                   />
                 </div>
                 <div className="grid gap-2">
-                  <Label htmlFor="email">Email Corporativo</Label>
+                  <Label htmlFor="email" className="text-blue-900 font-semibold">Email Corporativo</Label>
                   <Input
                     id="email"
                     type="email"
                     value={email}
                     onChange={(e) => setEmail(e.target.value)}
                     required
+                    className="h-11 border-gray-300 focus:border-green-500 focus:ring-green-500"
                   />
                 </div>
                 <div className="grid gap-2">
-                  <Label htmlFor="nivel">Nível de Acesso</Label>
+                  <Label htmlFor="nivel" className="text-blue-900 font-semibold">Nível de Acesso</Label>
                   <Select value={nivelAcesso} onValueChange={setNivelAcesso}>
-                    <SelectTrigger>
+                    <SelectTrigger className="h-11 border-gray-300 focus:ring-green-500">
                       <SelectValue />
                     </SelectTrigger>
                     <SelectContent>
@@ -194,68 +207,78 @@ export default function Equipe() {
                   </Select>
                 </div>
                 
-                {error && <p className="text-sm text-red-500">{error}</p>}
+                {error && <p className="text-sm text-red-600 bg-red-50 p-2 rounded border border-red-200">{error}</p>}
                 
-                <div className="bg-yellow-50 p-3 rounded-md text-xs text-yellow-800 border border-yellow-200">
-                  <p>⚠️ Nota: O sistema de convites via e-mail será ativado na versão final.</p>
+                <div className="bg-yellow-50 p-4 rounded-lg text-sm text-yellow-800 border border-yellow-200 flex gap-2 items-start">
+                  <span className="text-lg">⚠️</span>
+                  <p>Nota: O sistema de convites via e-mail será ativado na versão final.</p>
                 </div>
               </div>
               <DialogFooter>
-                <Button type="submit">Enviar Convite</Button>
+                <Button type="submit" className="w-full bg-blue-800 hover:bg-blue-900 text-white font-bold h-11">Enviar Convite</Button>
               </DialogFooter>
             </form>
           </DialogContent>
         </Dialog>
       </div>
 
-      <div className="rounded-md border bg-white">
+      <div className="rounded-xl border border-gray-200 bg-white shadow-md overflow-hidden">
         <Table>
-          <TableHeader>
+          <TableHeader className="bg-gray-50">
             <TableRow>
-              <TableHead>Nome</TableHead>
-              <TableHead>Email</TableHead>
-              <TableHead>Nível de Acesso</TableHead>
-              <TableHead>Status</TableHead>
-              <TableHead className="text-right">Ações</TableHead>
+              <TableHead className="font-bold text-blue-900 pl-6 h-12">Nome</TableHead>
+              <TableHead className="font-bold text-blue-900 h-12">Email</TableHead>
+              <TableHead className="font-bold text-blue-900 h-12">Nível de Acesso</TableHead>
+              <TableHead className="font-bold text-blue-900 h-12">Status</TableHead>
+              <TableHead className="text-right font-bold text-blue-900 pr-6 h-12">Ações</TableHead>
             </TableRow>
           </TableHeader>
           <TableBody>
-            {loading ? (
+            {equipe.length === 0 ? (
               <TableRow>
-                <TableCell colSpan={5} className="text-center h-24">
-                  Carregando...
-                </TableCell>
-              </TableRow>
-            ) : equipe.length === 0 ? (
-              <TableRow>
-                <TableCell colSpan={5} className="text-center h-24 text-muted-foreground">
-                  Nenhum membro encontrado.
+                <TableCell colSpan={5} className="text-center h-32 text-gray-500">
+                  <div className="flex flex-col items-center justify-center gap-2">
+                    <User className="h-10 w-10 text-gray-300" />
+                    <p className="font-medium">Nenhum membro encontrado.</p>
+                    <p className="text-sm">Adicione membros para começar a colaborar.</p>
+                  </div>
                 </TableCell>
               </TableRow>
             ) : (
               equipe.map((membro) => (
-                <TableRow key={membro.id}>
-                  <TableCell className="font-medium flex items-center gap-2">
-                    <div className="h-8 w-8 rounded-full bg-gray-100 flex items-center justify-center text-gray-500">
-                      <User size={16} />
+                <TableRow key={membro.id} className="hover:bg-blue-50/50 transition-colors">
+                  <TableCell className="pl-6 font-medium">
+                    <div className="flex items-center gap-3">
+                      <div className="h-10 w-10 rounded-full bg-blue-100 flex items-center justify-center text-blue-700 font-bold shadow-sm border border-blue-200">
+                        {membro.nome.charAt(0).toUpperCase()}
+                      </div>
+                      <span className="text-gray-900">{membro.nome}</span>
                     </div>
-                    {membro.nome}
                   </TableCell>
-                  <TableCell>{membro.email}</TableCell>
+                  <TableCell className="text-gray-600">{membro.email}</TableCell>
                   <TableCell>
-                    <Badge variant={membro.nivel_acesso === 'admin' ? 'default' : 'secondary'}>
+                    <Badge variant={membro.nivel_acesso === 'admin' ? 'default' : 'secondary'} 
+                      className={
+                        membro.nivel_acesso === 'admin' 
+                          ? 'bg-blue-800 hover:bg-blue-900' 
+                          : 'bg-gray-100 text-gray-800 hover:bg-gray-200'
+                      }
+                    >
                       {membro.nivel_acesso === 'admin' ? 'Administrador' : 
                        membro.nivel_acesso === 'assessor' ? 'Assessor' : 'Liderança'}
                     </Badge>
                   </TableCell>
                   <TableCell>
-                    <Badge variant={membro.ativo ? 'outline' : 'destructive'} className={membro.ativo ? "text-green-600 border-green-200 bg-green-50" : ""}>
+                    <Badge variant="outline" className={membro.ativo 
+                      ? "text-green-700 border-green-200 bg-green-50 px-2 py-0.5" 
+                      : "text-red-700 border-red-200 bg-red-50 px-2 py-0.5"
+                    }>
                       {membro.ativo ? 'Ativo' : 'Inativo'}
                     </Badge>
                   </TableCell>
-                  <TableCell className="text-right">
-                    <Button variant="ghost" size="icon" className="text-red-500 hover:text-red-600">
-                      <Trash2 className="h-4 w-4" />
+                  <TableCell className="text-right pr-6">
+                    <Button variant="ghost" size="icon" className="h-9 w-9 text-gray-400 hover:text-red-600 hover:bg-red-50 rounded-full transition-colors">
+                      <Trash2 className="h-5 w-5" />
                     </Button>
                   </TableCell>
                 </TableRow>

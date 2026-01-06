@@ -232,47 +232,55 @@ export default function Configuracoes() {
   }
 
   if (loading) {
-    return <div>Carregando configurações...</div>
+    return (
+      <div className="flex h-full items-center justify-center">
+        <div className="flex flex-col items-center gap-2">
+          <div className="h-8 w-8 animate-spin rounded-full border-4 border-blue-600 border-t-transparent"></div>
+          <p className="text-gray-500 font-medium">Carregando configurações...</p>
+        </div>
+      </div>
+    )
   }
 
   return (
-    <div className="space-y-6 max-w-4xl">
-      <div>
-        <h1 className="text-3xl font-bold tracking-tight">Configurações</h1>
-        <p className="text-muted-foreground">
+    <div className="space-y-8 max-w-5xl mx-auto pb-10">
+      <div className="flex flex-col gap-2 border-b border-gray-200 pb-6">
+        <h1 className="text-3xl font-extrabold tracking-tight text-blue-900">Configurações</h1>
+        <p className="text-gray-600 text-lg">
           Gerencie os dados do seu mandato e assinatura.
         </p>
       </div>
 
-      <div className="grid gap-6">
+      <div className="grid gap-8">
         {/* Identidade do Mandato */}
-        <Card>
-          <CardHeader>
-            <CardTitle className="flex items-center gap-2">
-              <Building2 className="h-5 w-5" />
+        <Card className="shadow-lg border-t-4 border-blue-600">
+          <CardHeader className="bg-gray-50/50 border-b border-gray-100 pb-4">
+            <CardTitle className="flex items-center gap-2 text-xl font-bold text-blue-900">
+              <Building2 className="h-5 w-5 text-blue-600" />
               Identidade do Mandato
             </CardTitle>
-            <CardDescription>
+            <CardDescription className="text-gray-500">
               Essas informações aparecerão nos ofícios e documentos gerados.
             </CardDescription>
           </CardHeader>
           <form onSubmit={handleSave}>
-            <CardContent className="space-y-4">
+            <CardContent className="space-y-6 p-6">
               <div className="grid gap-2">
-                <Label htmlFor="nome">Nome do Parlamentar</Label>
+                <Label htmlFor="nome" className="text-blue-900 font-semibold">Nome do Parlamentar</Label>
                 <Input
                   id="nome"
                   value={nomeParlamentar}
                   onChange={(e) => setNomeParlamentar(e.target.value)}
                   placeholder="Ex: Vereador João da Silva"
+                  className="h-11 border-gray-300 focus:border-blue-500 focus:ring-blue-500"
                 />
               </div>
 
-              <div className="grid grid-cols-2 gap-4">
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                 <div className="grid gap-2">
-                  <Label htmlFor="cargo">Cargo</Label>
+                  <Label htmlFor="cargo" className="text-blue-900 font-semibold">Cargo</Label>
                   <Select value={cargo} onValueChange={setCargo}>
-                    <SelectTrigger>
+                    <SelectTrigger className="h-11 border-gray-300 focus:ring-blue-500">
                       <SelectValue />
                     </SelectTrigger>
                     <SelectContent>
@@ -284,48 +292,53 @@ export default function Configuracoes() {
                   </Select>
                 </div>
                 <div className="grid gap-2">
-                  <Label htmlFor="municipio">Município/Estado</Label>
+                  <Label htmlFor="municipio" className="text-blue-900 font-semibold">Município/Estado</Label>
                   <Input
                     id="municipio"
                     value={municipio}
                     onChange={(e) => setMunicipio(e.target.value)}
                     placeholder="Ex: São Paulo - SP"
+                    className="h-11 border-gray-300 focus:border-blue-500 focus:ring-blue-500"
                   />
                 </div>
               </div>
 
               <div className="grid gap-2">
-                <Label htmlFor="cor">Cor Principal (Identidade Visual)</Label>
-                <div className="flex gap-2">
-                  <Input
-                    id="cor"
-                    type="color"
-                    className="w-12 h-10 p-1"
-                    value={corPrimaria}
-                    onChange={(e) => setCorPrimaria(e.target.value)}
-                  />
+                <Label htmlFor="cor" className="text-blue-900 font-semibold">Cor Principal (Identidade Visual)</Label>
+                <div className="flex gap-3 items-center">
+                  <div className="p-1 border rounded-md bg-white shadow-sm">
+                    <Input
+                      id="cor"
+                      type="color"
+                      className="w-16 h-10 p-0 border-0 cursor-pointer"
+                      value={corPrimaria}
+                      onChange={(e) => setCorPrimaria(e.target.value)}
+                    />
+                  </div>
                   <Input
                     value={corPrimaria}
                     onChange={(e) => setCorPrimaria(e.target.value)}
                     placeholder="#000000"
-                    className="w-32 font-mono"
+                    className="w-36 font-mono h-11 uppercase"
                   />
+                  <div className="text-xs text-gray-500 ml-2">
+                    Essa cor será usada no cabeçalho dos PDFs gerados.
+                  </div>
                 </div>
-                <p className="text-xs text-muted-foreground">
-                  Essa cor será usada no cabeçalho dos PDFs gerados.
-                </p>
               </div>
 
               {message && (
-                <div className={`p-3 rounded-md text-sm ${
-                  message.type === 'success' ? 'bg-green-50 text-green-700' : 'bg-red-50 text-red-700'
+                <div className={`p-4 rounded-lg border text-sm flex items-center gap-2 ${
+                  message.type === 'success' 
+                    ? 'bg-green-50 text-green-700 border-green-200' 
+                    : 'bg-red-50 text-red-700 border-red-200'
                 }`}>
-                  {message.text}
+                  {message.type === 'success' ? '✅' : '❌'} {message.text}
                 </div>
               )}
             </CardContent>
-            <CardFooter className="flex justify-between">
-              <Button type="submit" disabled={saving}>
+            <CardFooter className="flex justify-end p-6 bg-gray-50 border-t border-gray-100 rounded-b-xl">
+              <Button type="submit" disabled={saving} className="bg-blue-800 hover:bg-blue-900 text-white font-bold h-11 px-8 shadow-sm transition-all hover:scale-[1.02]">
                 {saving ? (
                   'Salvando...'
                 ) : (
@@ -339,52 +352,55 @@ export default function Configuracoes() {
         </Card>
 
         {/* Dados de Teste */}
-        <Card className="border-blue-200 bg-blue-50">
+        <Card className="shadow-md border border-blue-100 bg-gradient-to-br from-blue-50 to-white">
           <CardHeader>
             <CardTitle className="flex items-center gap-2 text-blue-800">
               <Database className="h-5 w-5" />
               Dados de Demonstração
             </CardTitle>
-            <CardDescription className="text-blue-600">
+            <CardDescription className="text-blue-600/80">
               Use esta ferramenta para popular o sistema com dados fictícios e testar o Dashboard.
             </CardDescription>
           </CardHeader>
-          <CardFooter>
-            <Button variant="secondary" onClick={handleSeedDatabase} disabled={seeding} className="bg-blue-200 text-blue-800 hover:bg-blue-300">
+          <CardFooter className="pt-0 pb-6">
+            <Button 
+              variant="secondary" 
+              onClick={handleSeedDatabase} 
+              disabled={seeding} 
+              className="bg-white text-blue-700 hover:bg-blue-100 border border-blue-200 shadow-sm font-medium"
+            >
               {seeding ? 'Gerando...' : 'Gerar Dados Fictícios (Seed)'}
             </Button>
           </CardFooter>
         </Card>
 
         {/* Assinatura e Cobrança */}
-        <Card>
-          <CardHeader>
-            <CardTitle className="flex items-center gap-2">
-              <CreditCard className="h-5 w-5" />
+        <Card className="shadow-md">
+          <CardHeader className="border-b border-gray-100 pb-4">
+            <CardTitle className="flex items-center gap-2 text-gray-800">
+              <CreditCard className="h-5 w-5 text-gray-600" />
               Plano e Assinatura
             </CardTitle>
             <CardDescription>
               Gerencie sua assinatura do Gabinete Digital 360.
             </CardDescription>
           </CardHeader>
-          <CardContent className="space-y-4">
-            <div className="flex items-center justify-between p-4 border rounded-lg bg-gray-50">
-              <div>
-                <p className="font-medium text-sm">Status da Assinatura</p>
-                <div className="mt-1">
-                  <Badge variant={mandato?.status_assinatura === 'ativo' ? 'default' : 'destructive'}>
-                    {mandato?.status_assinatura.toUpperCase()}
-                  </Badge>
-                </div>
+          <CardContent className="space-y-4 p-6">
+            <div className="flex flex-col sm:flex-row items-center justify-between p-6 border rounded-xl bg-gray-50/80">
+              <div className="mb-4 sm:mb-0 text-center sm:text-left">
+                <p className="font-semibold text-gray-700 mb-1">Status da Assinatura</p>
+                <Badge variant={mandato?.status_assinatura === 'ativo' ? 'default' : 'destructive'} className="px-3 py-1 text-sm">
+                  {mandato?.status_assinatura.toUpperCase()}
+                </Badge>
               </div>
-              <div className="text-right">
-                <p className="text-sm font-medium">Plano Mensal</p>
-                <p className="text-2xl font-bold">R$ 1.520,00<span className="text-sm font-normal text-muted-foreground">/mês</span></p>
+              <div className="text-center sm:text-right">
+                <p className="text-sm font-medium text-gray-500 uppercase tracking-wide">Plano Mensal</p>
+                <p className="text-3xl font-extrabold text-gray-900">R$ 1.520,00<span className="text-base font-normal text-gray-500">/mês</span></p>
               </div>
             </div>
           </CardContent>
-          <CardFooter>
-            <Button variant="outline">Gerenciar no Stripe</Button>
+          <CardFooter className="p-6 pt-0 flex justify-end">
+            <Button variant="outline" className="border-gray-300 text-gray-700 hover:bg-gray-50">Gerenciar no Stripe</Button>
           </CardFooter>
         </Card>
       </div>

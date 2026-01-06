@@ -302,15 +302,18 @@ export default function Demandas() {
 
   return (
     <div className="space-y-6 h-full flex flex-col">
-      <div className="flex items-center justify-between">
-        <h1 className="text-3xl font-bold tracking-tight">Gestão de Demandas</h1>
+      <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
+        <div>
+          <h1 className="text-3xl font-extrabold tracking-tight text-blue-900">Gestão de Demandas</h1>
+          <p className="text-gray-600">Acompanhe e gerencie as solicitações do gabinete.</p>
+        </div>
         <div className="flex gap-2">
             <PDFDownloadLink
               document={<DemandasRelatorioPDF demandas={filteredDemandas} />}
               fileName={`relatorio_demandas_${new Date().toISOString().split('T')[0]}.pdf`}
             >
               {({ loading }) => (
-                <Button variant="outline" disabled={loading}>
+                <Button variant="outline" disabled={loading} className="border-blue-200 text-blue-700 hover:bg-blue-50">
                   <FileText className="mr-2 h-4 w-4" />
                   {loading ? '...' : 'Relatório Geral'}
                 </Button>
@@ -319,13 +322,13 @@ export default function Demandas() {
             
             <Dialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
               <DialogTrigger asChild>
-                <Button>
+                <Button className="bg-green-600 hover:bg-green-700 text-white font-bold shadow-md transition-all hover:scale-105">
                   <Plus className="mr-2 h-4 w-4" /> Nova Demanda
                 </Button>
               </DialogTrigger>
-              <DialogContent className="sm:max-w-[500px]">
+              <DialogContent className="sm:max-w-[600px] border-t-4 border-blue-800">
                 <DialogHeader>
-                  <DialogTitle>Registrar Nova Demanda</DialogTitle>
+                  <DialogTitle className="text-blue-900 text-xl font-bold">Registrar Nova Demanda</DialogTitle>
                   <DialogDescription>
                     Crie um ticket para acompanhar uma solicitação de um eleitor ou do gabinete.
                   </DialogDescription>
@@ -333,20 +336,21 @@ export default function Demandas() {
                 <form onSubmit={handleAddDemanda}>
                   <div className="grid gap-4 py-4">
                     <div className="grid gap-2">
-                      <Label htmlFor="titulo">Título</Label>
+                      <Label htmlFor="titulo" className="text-blue-900 font-semibold">Título</Label>
                       <Input
                         id="titulo"
                         value={titulo}
                         onChange={(e) => setTitulo(e.target.value)}
                         required
                         placeholder="Ex: Buraco na Rua X"
+                        className="border-gray-300 focus:border-green-500 focus:ring-green-500"
                       />
                     </div>
                     
                     <div className="grid gap-2">
-                      <Label htmlFor="eleitor">Eleitor Solicitante</Label>
+                      <Label htmlFor="eleitor" className="text-blue-900 font-semibold">Eleitor Solicitante</Label>
                       <Select value={eleitorId} onValueChange={setEleitorId}>
-                        <SelectTrigger>
+                        <SelectTrigger className="border-gray-300 focus:ring-green-500">
                           <SelectValue placeholder="Selecione um eleitor" />
                         </SelectTrigger>
                         <SelectContent>
@@ -362,9 +366,9 @@ export default function Demandas() {
 
                     <div className="grid grid-cols-2 gap-4">
                       <div className="grid gap-2">
-                        <Label htmlFor="categoria">Categoria</Label>
+                        <Label htmlFor="categoria" className="text-blue-900 font-semibold">Categoria</Label>
                         <Select value={categoria} onValueChange={setCategoria}>
-                          <SelectTrigger>
+                          <SelectTrigger className="border-gray-300 focus:ring-green-500">
                             <SelectValue />
                           </SelectTrigger>
                           <SelectContent>
@@ -378,9 +382,9 @@ export default function Demandas() {
                         </Select>
                       </div>
                       <div className="grid gap-2">
-                        <Label htmlFor="prioridade">Prioridade</Label>
+                        <Label htmlFor="prioridade" className="text-blue-900 font-semibold">Prioridade</Label>
                         <Select value={prioridade} onValueChange={setPrioridade}>
-                          <SelectTrigger>
+                          <SelectTrigger className="border-gray-300 focus:ring-green-500">
                             <SelectValue />
                           </SelectTrigger>
                           <SelectContent>
@@ -394,7 +398,7 @@ export default function Demandas() {
 
                     <div className="grid gap-2">
                       <div className="flex justify-between items-center">
-                        <Label htmlFor="descricao">Descrição Detalhada</Label>
+                        <Label htmlFor="descricao" className="text-blue-900 font-semibold">Descrição Detalhada</Label>
                         <Button 
                           type="button" 
                           variant="ghost" 
@@ -412,12 +416,12 @@ export default function Demandas() {
                         value={descricao}
                         onChange={(e) => setDescricao(e.target.value)}
                         placeholder="Detalhes sobre a solicitação..."
-                        className="h-24"
+                        className="h-24 border-gray-300 focus:border-green-500 focus:ring-green-500"
                       />
                     </div>
                   </div>
                   <DialogFooter>
-                    <Button type="submit">Salvar Demanda</Button>
+                    <Button type="submit" className="bg-green-600 hover:bg-green-700 text-white font-bold w-full sm:w-auto">Salvar Demanda</Button>
                   </DialogFooter>
                 </form>
               </DialogContent>
@@ -425,12 +429,12 @@ export default function Demandas() {
         </div>
       </div>
 
-      <div className="flex items-center space-x-2">
-        <div className="relative flex-1 max-w-sm">
-          <Search className="absolute left-2.5 top-2.5 h-4 w-4 text-muted-foreground" />
+      <div className="flex items-center space-x-2 bg-white p-2 rounded-lg border shadow-sm max-w-md">
+        <div className="relative flex-1">
+          <Search className="absolute left-3 top-3 h-4 w-4 text-gray-400" />
           <Input
             placeholder="Buscar demandas..."
-            className="pl-8"
+            className="pl-10 border-none shadow-none focus-visible:ring-0 text-base"
             value={searchTerm}
             onChange={(e) => setSearchTerm(e.target.value)}
           />
@@ -438,19 +442,19 @@ export default function Demandas() {
       </div>
 
       {/* Kanban Board */}
-      <div className="flex-1 overflow-x-auto">
-        <div className="flex h-full gap-6 min-w-[1000px] pb-4">
+      <div className="flex-1 overflow-x-auto pb-4">
+        <div className="flex h-full gap-6 min-w-[1000px]">
           
           {/* Column: Aberto */}
-          <div className="flex-1 flex flex-col rounded-lg bg-gray-50 border border-gray-200 h-full max-h-[calc(100vh-200px)]">
-            <div className="p-4 border-b border-gray-100 flex items-center justify-between bg-white rounded-t-lg">
+          <div className="flex-1 flex flex-col rounded-xl bg-gray-50 border border-gray-200 h-full max-h-[calc(100vh-220px)] shadow-sm">
+            <div className="p-4 border-b border-gray-200 flex items-center justify-between bg-white rounded-t-xl border-t-4 border-t-red-500">
               <div className="flex items-center gap-2">
-                <AlertCircle className="h-4 w-4 text-red-500" />
-                <h3 className="font-semibold text-gray-700">Aberto</h3>
+                <AlertCircle className="h-5 w-5 text-red-500" />
+                <h3 className="font-bold text-gray-800">Aberto</h3>
               </div>
-              <Badge variant="secondary">{columns.aberto.length}</Badge>
+              <Badge variant="secondary" className="bg-red-50 text-red-700 border-red-100">{columns.aberto.length}</Badge>
             </div>
-            <div className="p-3 space-y-3 overflow-y-auto flex-1">
+            <div className="p-3 space-y-3 overflow-y-auto flex-1 bg-gray-50/50">
               {columns.aberto.map(demanda => (
                 <DemandaCard 
                   key={demanda.id} 
@@ -465,15 +469,15 @@ export default function Demandas() {
           </div>
 
           {/* Column: Em Trâmite */}
-          <div className="flex-1 flex flex-col rounded-lg bg-gray-50 border border-gray-200 h-full max-h-[calc(100vh-200px)]">
-            <div className="p-4 border-b border-gray-100 flex items-center justify-between bg-white rounded-t-lg">
+          <div className="flex-1 flex flex-col rounded-xl bg-gray-50 border border-gray-200 h-full max-h-[calc(100vh-220px)] shadow-sm">
+            <div className="p-4 border-b border-gray-200 flex items-center justify-between bg-white rounded-t-xl border-t-4 border-t-yellow-500">
               <div className="flex items-center gap-2">
-                <Clock className="h-4 w-4 text-yellow-500" />
-                <h3 className="font-semibold text-gray-700">Em Trâmite</h3>
+                <Clock className="h-5 w-5 text-yellow-500" />
+                <h3 className="font-bold text-gray-800">Em Trâmite</h3>
               </div>
-              <Badge variant="secondary">{columns.em_tramite.length}</Badge>
+              <Badge variant="secondary" className="bg-yellow-50 text-yellow-700 border-yellow-100">{columns.em_tramite.length}</Badge>
             </div>
-            <div className="p-3 space-y-3 overflow-y-auto flex-1">
+            <div className="p-3 space-y-3 overflow-y-auto flex-1 bg-gray-50/50">
               {columns.em_tramite.map(demanda => (
                 <DemandaCard 
                   key={demanda.id} 
@@ -488,15 +492,15 @@ export default function Demandas() {
           </div>
 
           {/* Column: Concluído */}
-          <div className="flex-1 flex flex-col rounded-lg bg-gray-50 border border-gray-200 h-full max-h-[calc(100vh-200px)]">
-            <div className="p-4 border-b border-gray-100 flex items-center justify-between bg-white rounded-t-lg">
+          <div className="flex-1 flex flex-col rounded-xl bg-gray-50 border border-gray-200 h-full max-h-[calc(100vh-220px)] shadow-sm">
+            <div className="p-4 border-b border-gray-200 flex items-center justify-between bg-white rounded-t-xl border-t-4 border-t-green-500">
               <div className="flex items-center gap-2">
-                <CheckCircle className="h-4 w-4 text-green-500" />
-                <h3 className="font-semibold text-gray-700">Concluído</h3>
+                <CheckCircle className="h-5 w-5 text-green-500" />
+                <h3 className="font-bold text-gray-800">Concluído</h3>
               </div>
-              <Badge variant="secondary">{columns.concluido.length}</Badge>
+              <Badge variant="secondary" className="bg-green-50 text-green-700 border-green-100">{columns.concluido.length}</Badge>
             </div>
-            <div className="p-3 space-y-3 overflow-y-auto flex-1">
+            <div className="p-3 space-y-3 overflow-y-auto flex-1 bg-gray-50/50">
               {columns.concluido.map(demanda => (
                 <DemandaCard 
                   key={demanda.id} 

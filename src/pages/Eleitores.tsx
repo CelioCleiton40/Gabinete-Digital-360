@@ -167,16 +167,19 @@ export default function Eleitores() {
     <div className="space-y-6">
       <div className="flex flex-col gap-4">
         <div className="flex items-center justify-between">
-          <h1 className="text-3xl font-bold tracking-tight">Eleitores</h1>
+          <div>
+            <h1 className="text-3xl font-extrabold tracking-tight text-blue-900">Eleitores</h1>
+            <p className="text-gray-600">Gerencie sua base de contatos.</p>
+          </div>
           <Dialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
             <DialogTrigger asChild>
-              <Button>
+              <Button className="bg-green-600 hover:bg-green-700 text-white font-bold shadow-md transition-all hover:scale-105">
                 <Plus className="mr-2 h-4 w-4" /> Novo Eleitor
               </Button>
             </DialogTrigger>
-            <DialogContent>
+            <DialogContent className="sm:max-w-[500px] border-t-4 border-blue-800">
               <DialogHeader>
-                <DialogTitle>Adicionar Novo Eleitor</DialogTitle>
+                <DialogTitle className="text-blue-900">Adicionar Novo Eleitor</DialogTitle>
                 <DialogDescription>
                   Preencha os dados abaixo para cadastrar um novo eleitor na base.
                 </DialogDescription>
@@ -184,45 +187,49 @@ export default function Eleitores() {
               <form onSubmit={handleAddEleitor}>
                 <div className="grid gap-4 py-4">
                   <div className="grid gap-2">
-                    <Label htmlFor="nome">Nome Completo</Label>
+                    <Label htmlFor="nome" className="text-blue-900 font-semibold">Nome Completo</Label>
                     <Input
                       id="nome"
                       value={nome}
                       onChange={(e) => setNome(e.target.value)}
                       required
+                      className="border-gray-300 focus:border-green-500 focus:ring-green-500"
                     />
                   </div>
                   <div className="grid gap-2">
-                    <Label htmlFor="whatsapp">WhatsApp</Label>
+                    <Label htmlFor="whatsapp" className="text-blue-900 font-semibold">WhatsApp</Label>
                     <Input
                       id="whatsapp"
                       value={whatsapp}
                       onChange={(e) => setWhatsapp(e.target.value)}
                       required
                       placeholder="(00) 00000-0000"
+                      className="border-gray-300 focus:border-green-500 focus:ring-green-500"
                     />
                   </div>
                   <div className="grid grid-cols-2 gap-4">
                     <div className="grid gap-2">
-                      <Label htmlFor="bairro">Bairro</Label>
+                      <Label htmlFor="bairro" className="text-blue-900 font-semibold">Bairro</Label>
                       <Input
                         id="bairro"
                         value={bairro}
                         onChange={(e) => setBairro(e.target.value)}
+                        className="border-gray-300 focus:border-green-500 focus:ring-green-500"
                       />
                     </div>
                     <div className="grid gap-2">
-                      <Label htmlFor="cidade">Cidade</Label>
+                      <Label htmlFor="cidade" className="text-blue-900 font-semibold">Cidade</Label>
                       <Input
                         id="cidade"
                         value={cidadeForm}
                         onChange={(e) => setCidadeForm(e.target.value)}
+                        className="border-gray-300 focus:border-green-500 focus:ring-green-500"
                       />
                     </div>
                   </div>
                 </div>
                 <DialogFooter>
-                  <Button type="submit">Salvar</Button>
+                  <Button type="submit" className="bg-green-600 hover:bg-green-700 text-white font-bold w-full sm:w-auto">Salvar</Button>
                 </DialogFooter>
               </form>
             </DialogContent>
@@ -230,20 +237,19 @@ export default function Eleitores() {
         </div>
 
         {/* Global Location Filter - Exclusive to Eleitores Page */}
-        {/* Restrição de Escopo: Este filtro é exibido APENAS na página de Eleitores */}
-        <div className="bg-white p-3 rounded-lg border shadow-sm flex flex-col md:flex-row gap-4 items-center justify-between">
+        <div className="bg-white p-4 rounded-xl border border-blue-100 shadow-sm flex flex-col md:flex-row gap-4 items-center justify-between">
             <div className="flex items-center gap-2 text-gray-700">
-              <div className="bg-blue-50 p-2 rounded-md">
-                <MapPin className="h-4 w-4 text-primary" />
+              <div className="bg-blue-50 p-2 rounded-lg">
+                <MapPin className="h-5 w-5 text-blue-800" />
               </div>
-              <span className="font-medium text-sm">Filtro de Localização:</span>
+              <span className="font-bold text-blue-900">Filtro de Localização:</span>
             </div>
             
             <div className="flex flex-col md:flex-row gap-3 w-full md:w-auto">
               {/* State Filter */}
               <div className="w-full md:w-[140px]">
                 <Select value={estado} onValueChange={setEstado}>
-                  <SelectTrigger className="h-9">
+                  <SelectTrigger className="h-10 border-blue-200 focus:ring-green-500">
                     <SelectValue placeholder="Estado" />
                   </SelectTrigger>
                   <SelectContent>
@@ -257,7 +263,7 @@ export default function Eleitores() {
               {/* City Filter */}
               <div className="w-full md:w-[180px]">
                 <Select value={cidade} onValueChange={setCidade}>
-                  <SelectTrigger className="h-9">
+                  <SelectTrigger className="h-10 border-blue-200 focus:ring-green-500">
                     <SelectValue placeholder="Cidade" />
                   </SelectTrigger>
                   <SelectContent>
@@ -271,7 +277,7 @@ export default function Eleitores() {
               {/* Neighborhood Filter */}
               <div className="w-full md:w-[220px]">
                 <Select value={bairroFilter} onValueChange={setBairroFilter}>
-                  <SelectTrigger className="h-9">
+                  <SelectTrigger className="h-10 border-blue-200 focus:ring-green-500">
                     <SelectValue placeholder="Bairro" />
                   </SelectTrigger>
                   <SelectContent>
@@ -287,68 +293,79 @@ export default function Eleitores() {
           </div>
       </div>
 
-      <div className="flex items-center space-x-2">
+      <div className="flex items-center space-x-2 bg-white p-2 rounded-lg border shadow-sm">
         <div className="relative flex-1">
-          <Search className="absolute left-2.5 top-2.5 h-4 w-4 text-muted-foreground" />
+          <Search className="absolute left-3 top-3 h-4 w-4 text-gray-400" />
           <Input
             placeholder="Buscar por nome, whatsapp ou bairro..."
-            className="pl-8"
+            className="pl-10 border-none shadow-none focus-visible:ring-0 text-base"
             value={searchTerm}
             onChange={(e) => setSearchTerm(e.target.value)}
           />
         </div>
       </div>
 
-      <div className="rounded-md border bg-white">
+      <div className="rounded-xl border border-gray-200 bg-white shadow-md overflow-hidden">
         <Table>
-          <TableHeader>
+          <TableHeader className="bg-gray-50">
             <TableRow>
-              <TableHead>Nome</TableHead>
-              <TableHead>WhatsApp</TableHead>
-              <TableHead>Bairro</TableHead>
-              <TableHead>Cidade</TableHead>
-              <TableHead className="text-right">Ações</TableHead>
+              <TableHead className="font-bold text-blue-900">Nome</TableHead>
+              <TableHead className="font-bold text-blue-900">WhatsApp</TableHead>
+              <TableHead className="font-bold text-blue-900">Bairro</TableHead>
+              <TableHead className="font-bold text-blue-900">Cidade</TableHead>
+              <TableHead className="text-right font-bold text-blue-900">Ações</TableHead>
             </TableRow>
           </TableHeader>
           <TableBody>
             {loading ? (
               <TableRow>
                 <TableCell colSpan={5} className="text-center h-24">
-                  Carregando...
+                  <div className="flex items-center justify-center gap-2 text-gray-500">
+                    <div className="h-4 w-4 animate-spin rounded-full border-2 border-blue-600 border-t-transparent"></div>
+                    Carregando base...
+                  </div>
                 </TableCell>
               </TableRow>
             ) : filteredEleitores.length === 0 ? (
               <TableRow>
-                <TableCell colSpan={5} className="text-center h-24 text-muted-foreground">
-                  Nenhum eleitor encontrado.
+                <TableCell colSpan={5} className="text-center h-32 text-gray-500">
+                  <div className="flex flex-col items-center justify-center gap-2">
+                    <Users className="h-8 w-8 text-gray-300" />
+                    <p>Nenhum eleitor encontrado com os filtros atuais.</p>
+                  </div>
                 </TableCell>
               </TableRow>
             ) : (
               filteredEleitores.map((eleitor) => (
-                <TableRow key={eleitor.id}>
-                  <TableCell className="font-medium">{eleitor.nome}</TableCell>
+                <TableRow key={eleitor.id} className="hover:bg-blue-50/50 transition-colors">
+                  <TableCell className="font-medium text-gray-900">{eleitor.nome}</TableCell>
                   <TableCell>
                     <a 
                       href={`https://wa.me/55${eleitor.whatsapp.replace(/\D/g, '')}`} 
                       target="_blank" 
                       rel="noopener noreferrer"
-                      className="flex items-center gap-1 text-green-600 hover:text-green-800 hover:underline"
+                      className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-xs font-medium bg-green-100 text-green-800 hover:bg-green-200 transition-colors"
                     >
-                      <MessageCircle className="h-4 w-4" />
+                      <MessageCircle className="h-3 w-3" />
                       {eleitor.whatsapp}
                     </a>
                   </TableCell>
-                  <TableCell>{eleitor.bairro || '-'}</TableCell>
-                  <TableCell>{eleitor.cidade || '-'}</TableCell>
+                  <TableCell>
+                    <span className="inline-flex items-center gap-1 text-gray-600">
+                      <MapPin className="h-3 w-3 text-gray-400" />
+                      {eleitor.bairro || '-'}
+                    </span>
+                  </TableCell>
+                  <TableCell className="text-gray-600">{eleitor.cidade || '-'}</TableCell>
                   <TableCell className="text-right">
                     <div className="flex justify-end gap-2">
-                      <Button variant="ghost" size="icon">
+                      <Button variant="ghost" size="icon" className="h-8 w-8 text-blue-600 hover:text-blue-700 hover:bg-blue-50">
                         <Edit className="h-4 w-4" />
                       </Button>
                       <Button
                         variant="ghost"
                         size="icon"
-                        className="text-red-500 hover:text-red-600 hover:bg-red-50"
+                        className="h-8 w-8 text-red-500 hover:text-red-600 hover:bg-red-50"
                         onClick={() => handleDelete(eleitor.id)}
                       >
                         <Trash2 className="h-4 w-4" />

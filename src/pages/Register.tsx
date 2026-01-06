@@ -84,27 +84,39 @@ export default function Register() {
   }
 
   return (
-    <div className="flex h-screen items-center justify-center bg-gray-50">
-      <div className="w-full max-w-md space-y-8 rounded-lg bg-white p-8 shadow-md">
+    <div className="flex min-h-screen items-center justify-center bg-gradient-to-br from-green-600 via-yellow-400 to-blue-800 p-4">
+      <div className="w-full max-w-md space-y-8 rounded-xl bg-white p-8 shadow-2xl border-t-4 border-blue-800 relative overflow-hidden my-8">
+        {/* Decorative Brazilian Strip */}
+        <div className="absolute top-0 left-0 w-full h-1 flex">
+            <div className="w-1/3 bg-green-600 h-full"></div>
+            <div className="w-1/3 bg-yellow-400 h-full"></div>
+            <div className="w-1/3 bg-blue-800 h-full"></div>
+        </div>
+
         <div className="text-center">
-          <h2 className="text-3xl font-bold tracking-tight text-gray-900">Criar Nova Conta</h2>
-          <p className="mt-2 text-sm text-gray-600">Comece seu Gabinete Digital</p>
+          <div className="mx-auto mb-4 flex h-12 w-12 items-center justify-center rounded-full bg-blue-50">
+             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="h-6 w-6 text-blue-800"><path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/></svg>
+          </div>
+          <h2 className="text-3xl font-extrabold tracking-tight text-blue-900">Criar Nova Conta</h2>
+          <p className="mt-2 text-sm text-gray-600">Comece seu Gabinete Digital 360 hoje mesmo.</p>
         </div>
 
         <form className="mt-8 space-y-6" onSubmit={handleRegister}>
           <div className="space-y-4">
             <div>
-              <Label htmlFor="nome">Seu Nome</Label>
+              <Label htmlFor="nome" className="text-blue-900 font-semibold">Seu Nome</Label>
               <Input
                 id="nome"
                 name="nome"
                 required
                 value={formData.nome}
                 onChange={handleChange}
+                className="mt-1 border-gray-300 focus:border-green-500 focus:ring-green-500"
+                placeholder="Nome completo"
               />
             </div>
             <div>
-              <Label htmlFor="email">Email</Label>
+              <Label htmlFor="email" className="text-blue-900 font-semibold">Email</Label>
               <Input
                 id="email"
                 name="email"
@@ -112,10 +124,12 @@ export default function Register() {
                 required
                 value={formData.email}
                 onChange={handleChange}
+                className="mt-1 border-gray-300 focus:border-green-500 focus:ring-green-500"
+                placeholder="seunome@email.com"
               />
             </div>
             <div>
-              <Label htmlFor="password">Senha</Label>
+              <Label htmlFor="password" className="text-blue-900 font-semibold">Senha</Label>
               <Input
                 id="password"
                 name="password"
@@ -123,14 +137,16 @@ export default function Register() {
                 required
                 value={formData.password}
                 onChange={handleChange}
+                className="mt-1 border-gray-300 focus:border-green-500 focus:ring-green-500"
+                placeholder="••••••••"
               />
             </div>
             
-            <div className="border-t pt-4 mt-4">
-              <h3 className="text-sm font-medium text-gray-900 mb-2">Dados do Mandato</h3>
+            <div className="border-t border-gray-200 pt-4 mt-4">
+              <h3 className="text-sm font-bold text-blue-900 mb-4 uppercase tracking-wide">Dados do Mandato</h3>
               <div className="space-y-4">
                 <div>
-                  <Label htmlFor="mandatoNome">Nome do Parlamentar</Label>
+                  <Label htmlFor="mandatoNome" className="text-gray-700 font-medium">Nome do Parlamentar</Label>
                   <Input
                     id="mandatoNome"
                     name="mandatoNome"
@@ -138,14 +154,15 @@ export default function Register() {
                     required
                     value={formData.mandatoNome}
                     onChange={handleChange}
+                    className="mt-1 border-gray-300 focus:border-blue-500 focus:ring-blue-500"
                   />
                 </div>
                 <div>
-                  <Label htmlFor="cargo">Cargo</Label>
+                  <Label htmlFor="cargo" className="text-gray-700 font-medium">Cargo</Label>
                   <select
                     id="cargo"
                     name="cargo"
-                    className="flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2"
+                    className="flex h-10 w-full rounded-md border border-gray-300 bg-background px-3 py-2 text-sm ring-offset-background focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-offset-2 mt-1"
                     value={formData.cargo}
                     onChange={handleChange}
                   >
@@ -156,7 +173,7 @@ export default function Register() {
                   </select>
                 </div>
                 <div>
-                  <Label htmlFor="municipio">Município/Estado</Label>
+                  <Label htmlFor="municipio" className="text-gray-700 font-medium">Município/Estado</Label>
                   <Input
                     id="municipio"
                     name="municipio"
@@ -164,6 +181,7 @@ export default function Register() {
                     required
                     value={formData.municipio}
                     onChange={handleChange}
+                    className="mt-1 border-gray-300 focus:border-blue-500 focus:ring-blue-500"
                   />
                 </div>
               </div>
@@ -171,21 +189,30 @@ export default function Register() {
           </div>
 
           {error && (
-            <div className="text-sm text-red-500">
+            <div className="rounded-md bg-red-50 p-3 text-sm text-red-600 border border-red-200">
               {error}
             </div>
           )}
 
-          <Button type="submit" className="w-full" disabled={loading}>
-            {loading ? 'Criando conta...' : 'Cadastrar'}
+          <Button 
+            type="submit" 
+            className="w-full bg-green-600 hover:bg-green-700 text-white font-bold py-2 shadow-lg transition-all hover:scale-[1.02]" 
+            disabled={loading}
+          >
+            {loading ? 'Criando conta...' : 'Finalizar Cadastro'}
           </Button>
           
-          <div className="text-center text-sm">
-            <Link to="/login" className="text-blue-600 hover:underline">
-              Já tem uma conta? Entre aqui.
+          <div className="text-center text-sm pt-2">
+            <span className="text-gray-500">Já tem uma conta? </span>
+            <Link to="/login" className="font-semibold text-blue-700 hover:text-blue-900 hover:underline">
+              Acesse aqui
             </Link>
           </div>
         </form>
+
+        <div className="mt-6 text-center text-xs text-gray-400">
+          <p>Desenvolvido para o Brasil 🇧🇷</p>
+        </div>
       </div>
     </div>
   )

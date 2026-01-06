@@ -140,18 +140,25 @@ export default function Home() {
 
   return (
     <div className="space-y-6">
+      {/* Decorative Strip - aligned with Login/Register theme */}
+      <div className="w-full h-1.5 flex rounded-full overflow-hidden shadow-sm mb-6">
+        <div className="w-1/3 bg-green-600 h-full"></div>
+        <div className="w-1/3 bg-yellow-400 h-full"></div>
+        <div className="w-1/3 bg-blue-800 h-full"></div>
+      </div>
+
       <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
         <div className="flex flex-col gap-2">
-          <h1 className="text-3xl font-bold tracking-tight">Dashboard</h1>
-          <p className="text-muted-foreground">Visão geral do seu mandato em tempo real.</p>
+          <h1 className="text-3xl font-extrabold tracking-tight text-blue-900">Dashboard</h1>
+          <p className="text-gray-600">Visão geral do seu mandato em tempo real.</p>
         </div>
         
         {/* City Filter */}
-        <div className="flex items-center gap-2 bg-white p-2 rounded-lg border shadow-sm">
-          <Filter className="h-4 w-4 text-gray-500" />
-          <span className="text-sm font-medium text-gray-700">Filtrar por Cidade:</span>
+        <div className="flex items-center gap-2 bg-white p-2 px-4 rounded-xl border border-blue-100 shadow-sm">
+          <Filter className="h-4 w-4 text-blue-800" />
+          <span className="text-sm font-bold text-blue-900">Filtrar por Cidade:</span>
           <Select value={selectedCity} onValueChange={setSelectedCity}>
-            <SelectTrigger className="w-[180px] h-8">
+            <SelectTrigger className="w-[180px] h-9 border-blue-200 focus:ring-green-500">
               <SelectValue placeholder="Todas as cidades" />
             </SelectTrigger>
             <SelectContent>
@@ -166,49 +173,49 @@ export default function Home() {
 
       {/* KPI Cards */}
       <div className="grid gap-4 md:grid-cols-4">
-        <Card>
+        <Card className="border-t-4 border-green-600 shadow-md hover:shadow-lg transition-shadow">
           <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-            <CardTitle className="text-sm font-medium">Total de Eleitores</CardTitle>
-            <Users className="h-4 w-4 text-muted-foreground" />
+            <CardTitle className="text-sm font-bold text-blue-900">Total de Eleitores</CardTitle>
+            <Users className="h-4 w-4 text-green-600" />
           </CardHeader>
           <CardContent>
-            <div className="text-2xl font-bold">{loading ? '...' : stats.totalEleitores}</div>
-            <p className="text-xs text-muted-foreground">
+            <div className="text-2xl font-extrabold text-gray-800">{loading ? '...' : stats.totalEleitores}</div>
+            <p className="text-xs text-gray-500 font-medium">
               {selectedCity !== 'todas' ? `Em ${selectedCity}` : 'Cadastrados na base'}
             </p>
           </CardContent>
         </Card>
 
-        <Card>
+        <Card className="border-t-4 border-blue-800 shadow-md hover:shadow-lg transition-shadow">
           <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-            <CardTitle className="text-sm font-medium">Total de Demandas</CardTitle>
-            <FileText className="h-4 w-4 text-muted-foreground" />
+            <CardTitle className="text-sm font-bold text-blue-900">Total de Demandas</CardTitle>
+            <FileText className="h-4 w-4 text-blue-800" />
           </CardHeader>
           <CardContent>
-            <div className="text-2xl font-bold">{loading ? '...' : stats.totalDemandas}</div>
-            <p className="text-xs text-muted-foreground">Registradas no sistema</p>
+            <div className="text-2xl font-extrabold text-gray-800">{loading ? '...' : stats.totalDemandas}</div>
+            <p className="text-xs text-gray-500 font-medium">Registradas no sistema</p>
           </CardContent>
         </Card>
 
-        <Card>
+        <Card className="border-t-4 border-yellow-400 shadow-md hover:shadow-lg transition-shadow">
           <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-            <CardTitle className="text-sm font-medium">Demandas Abertas</CardTitle>
-            <Activity className="h-4 w-4 text-muted-foreground" />
+            <CardTitle className="text-sm font-bold text-blue-900">Demandas Abertas</CardTitle>
+            <Activity className="h-4 w-4 text-yellow-500" />
           </CardHeader>
           <CardContent>
-            <div className="text-2xl font-bold">{loading ? '...' : stats.demandasAbertas}</div>
-            <p className="text-xs text-muted-foreground">Aguardando ação</p>
+            <div className="text-2xl font-extrabold text-gray-800">{loading ? '...' : stats.demandasAbertas}</div>
+            <p className="text-xs text-gray-500 font-medium">Aguardando ação</p>
           </CardContent>
         </Card>
 
-        <Card>
+        <Card className="border-t-4 border-blue-600 shadow-md hover:shadow-lg transition-shadow">
           <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-            <CardTitle className="text-sm font-medium">Atendimentos Hoje</CardTitle>
-            <Activity className="h-4 w-4 text-green-500" />
+            <CardTitle className="text-sm font-bold text-blue-900">Atendimentos Hoje</CardTitle>
+            <Activity className="h-4 w-4 text-blue-600" />
           </CardHeader>
           <CardContent>
-            <div className="text-2xl font-bold">{loading ? '...' : stats.atendimentosHoje}</div>
-            <p className="text-xs text-muted-foreground">Demandas criadas hoje</p>
+            <div className="text-2xl font-extrabold text-gray-800">{loading ? '...' : stats.atendimentosHoje}</div>
+            <p className="text-xs text-gray-500 font-medium">Demandas criadas hoje</p>
           </CardContent>
         </Card>
       </div>
@@ -222,10 +229,10 @@ export default function Home() {
       <div className="grid gap-4 md:grid-cols-2">
         
         {/* Chart: Demandas por Categoria */}
-        <Card className="col-span-1">
+        <Card className="col-span-1 border-t-4 border-blue-800 shadow-md">
           <CardHeader>
-            <CardTitle className="flex items-center gap-2">
-              <PieChartIcon className="h-5 w-5" />
+            <CardTitle className="flex items-center gap-2 text-blue-900 font-bold">
+              <PieChartIcon className="h-5 w-5 text-blue-800" />
               Demandas por Categoria
             </CardTitle>
             <CardDescription>Distribuição dos tipos de solicitações (Geral).</CardDescription>
@@ -269,10 +276,10 @@ export default function Home() {
         </Card>
 
         {/* Chart: Top Bairros */}
-        <Card className="col-span-1">
+        <Card className="col-span-1 border-t-4 border-green-600 shadow-md">
           <CardHeader>
-            <CardTitle className="flex items-center gap-2">
-              <MapPin className="h-5 w-5" />
+            <CardTitle className="flex items-center gap-2 text-blue-900 font-bold">
+              <MapPin className="h-5 w-5 text-green-600" />
               Top 5 Bairros com Eleitores
             </CardTitle>
             <CardDescription>

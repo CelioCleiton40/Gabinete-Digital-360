@@ -175,7 +175,7 @@ export default function Home() {
       <div className="grid gap-4 md:grid-cols-4">
         <Card className="border-t-4 border-green-600 shadow-md hover:shadow-lg transition-shadow">
           <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-            <CardTitle className="text-sm font-bold text-blue-900">Total de Eleitores</CardTitle>
+            <CardTitle className="text-sm font-bold text-blue-900">Total de Cidadãos</CardTitle>
             <Users className="h-4 w-4 text-green-600" />
           </CardHeader>
           <CardContent>
@@ -280,10 +280,10 @@ export default function Home() {
           <CardHeader>
             <CardTitle className="flex items-center gap-2 text-blue-900 font-bold">
               <MapPin className="h-5 w-5 text-green-600" />
-              Top 5 Bairros com Eleitores
+              Top 5 Bairros com Cidadãos
             </CardTitle>
             <CardDescription>
-              {selectedCity !== 'todas' ? `Bairros de ${selectedCity} com mais eleitores.` : 'Onde está sua base eleitoral.'}
+              {selectedCity !== 'todas' ? `Bairros de ${selectedCity} com mais cidadãos.` : 'Onde está sua base eleitoral.'}
             </CardDescription>
           </CardHeader>
           <CardContent>

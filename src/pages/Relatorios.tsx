@@ -114,7 +114,7 @@ export default function Relatorios() {
                 <SelectContent>
                   <SelectItem value="eleitores">
                     <div className="flex items-center gap-2">
-                      <Users className="h-4 w-4" /> Base de Eleitores
+                      <Users className="h-4 w-4" /> Base de Cidadãos
                     </div>
                   </SelectItem>
                   <SelectItem value="demandas">

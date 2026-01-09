@@ -1,6 +1,6 @@
 
 import { useEffect, useState } from 'react'
-import { Plus, Search, Trash2, Edit, MessageCircle, MapPin } from 'lucide-react'
+import { Plus, Search, Trash2, Edit, MessageCircle, MapPin, Users } from 'lucide-react'
 import { supabase } from '@/lib/supabase'
 import { useAuth } from '@/contexts/AuthContext'
 import { useLocation } from '@/contexts/LocationContext'
@@ -119,7 +119,7 @@ export default function Eleitores() {
   }
 
   const handleDelete = async (id: string) => {
-    if (!confirm('Tem certeza que deseja excluir este eleitor?')) return
+    if (!confirm('Tem certeza que deseja excluir este cidadão?')) return
 
     try {
       const { error } = await supabase.from('eleitores').delete().eq('id', id)
@@ -168,20 +168,20 @@ export default function Eleitores() {
       <div className="flex flex-col gap-4">
         <div className="flex items-center justify-between">
           <div>
-            <h1 className="text-3xl font-extrabold tracking-tight text-blue-900">Eleitores</h1>
+            <h1 className="text-3xl font-extrabold tracking-tight text-blue-900">Cidadãos</h1>
             <p className="text-gray-600">Gerencie sua base de contatos.</p>
           </div>
           <Dialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
             <DialogTrigger asChild>
               <Button className="bg-green-600 hover:bg-green-700 text-white font-bold shadow-md transition-all hover:scale-105">
-                <Plus className="mr-2 h-4 w-4" /> Novo Eleitor
+                <Plus className="mr-2 h-4 w-4" /> Novo Cidadão
               </Button>
             </DialogTrigger>
             <DialogContent className="sm:max-w-[500px] border-t-4 border-blue-800">
               <DialogHeader>
-                <DialogTitle className="text-blue-900">Adicionar Novo Eleitor</DialogTitle>
+                <DialogTitle className="text-blue-900">Adicionar Novo Cidadão</DialogTitle>
                 <DialogDescription>
-                  Preencha os dados abaixo para cadastrar um novo eleitor na base.
+                  Preencha os dados abaixo para cadastrar um novo cidadão na base.
                 </DialogDescription>
               </DialogHeader>
               <form onSubmit={handleAddEleitor}>
@@ -331,7 +331,7 @@ export default function Eleitores() {
                 <TableCell colSpan={5} className="text-center h-32 text-gray-500">
                   <div className="flex flex-col items-center justify-center gap-2">
                     <Users className="h-8 w-8 text-gray-300" />
-                    <p>Nenhum eleitor encontrado com os filtros atuais.</p>
+                    <p>Nenhum cidadão encontrado com os filtros atuais.</p>
                   </div>
                 </TableCell>
               </TableRow>

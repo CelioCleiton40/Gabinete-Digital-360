@@ -330,7 +330,7 @@ export default function Demandas() {
                 <DialogHeader>
                   <DialogTitle className="text-blue-900 text-xl font-bold">Registrar Nova Demanda</DialogTitle>
                   <DialogDescription>
-                    Crie um ticket para acompanhar uma solicitação de um eleitor ou do gabinete.
+                    Crie um ticket para acompanhar uma solicitação de um cidadão ou do gabinete.
                   </DialogDescription>
                 </DialogHeader>
                 <form onSubmit={handleAddDemanda}>
@@ -348,10 +348,10 @@ export default function Demandas() {
                     </div>
                     
                     <div className="grid gap-2">
-                      <Label htmlFor="eleitor" className="text-blue-900 font-semibold">Eleitor Solicitante</Label>
+                      <Label htmlFor="eleitor" className="text-blue-900 font-semibold">Cidadão Solicitante</Label>
                       <Select value={eleitorId} onValueChange={setEleitorId}>
                         <SelectTrigger className="border-gray-300 focus:ring-green-500">
-                          <SelectValue placeholder="Selecione um eleitor" />
+                          <SelectValue placeholder="Selecione um cidadão" />
                         </SelectTrigger>
                         <SelectContent>
                           <SelectItem value="anonimo">-- Sem vínculo (Anônimo) --</SelectItem>

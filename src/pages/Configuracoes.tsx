@@ -113,7 +113,7 @@ export default function Configuracoes() {
 
   const handleSeedDatabase = async () => {
     if (!mandato) return
-    if (!confirm('Isso irá gerar dados fictícios (Eleitores e Demandas) no seu mandato. Deseja continuar?')) return
+    if (!confirm('Isso irá gerar dados fictícios (Cidadãos e Demandas) no seu mandato. Deseja continuar?')) return
 
     setSeeding(true)
     setMessage(null)
@@ -124,11 +124,11 @@ export default function Configuracoes() {
       const prioridades = ['baixa', 'media', 'alta']
       const statusList = ['aberto', 'em_tramite', 'concluido']
 
-      // 1. Criar Eleitores
+      // 1. Criar Cidadãos
       const eleitoresParaCriar = Array.from({ length: 20 }).map((_, i) => ({
         mandato_id: mandato.id,
-        nome: `Eleitor Teste ${i + 1}`,
-        email: `eleitor${i + 1}@teste.com`,
+        nome: `Cidadão Teste ${i + 1}`,
+        email: `cidadao${i + 1}@teste.com`,
         telefone: `(11) 99999-${String(i).padStart(4, '0')}`,
         bairro: bairros[Math.floor(Math.random() * bairros.length)],
         data_nascimento: '1990-01-01',

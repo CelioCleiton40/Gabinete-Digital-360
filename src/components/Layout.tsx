@@ -66,7 +66,7 @@ export default function Layout() {
             onClick={() => setIsSidebarOpen(false)}
           >
             <Users size={20} className="group-hover:scale-110 transition-transform text-gray-400 group-hover:text-green-600" />
-            <span>Eleitores</span>
+            <span>Cidadãos</span>
           </Link>
           <Link 
             to="/demandas" 
